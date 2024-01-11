@@ -1,14 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-function _LaunchCountdown({
-  date,
-  initialCountdown,
-}: {
-  date: Date;
-  initialCountdown: number;
-}) {
-  const [countdown, setCountdown] = useState(initialCountdown);
+function LaunchCountdown({ date }: { date: Date }) {
+  const [countdown, setCountdown] = useState(date.getTime() - Date.now());
 
   const days = Math.floor(countdown / (24 * 60 * 60 * 1000));
   const hours = Math.floor(
@@ -32,7 +26,7 @@ function _LaunchCountdown({
 
   if (countdown < 0) return null;
   return (
-    <div className="tabular-nums">
+    <div suppressHydrationWarning className="tabular-nums">
       T-
       {days > 0 ? (
         <>{days} days</>
@@ -46,4 +40,4 @@ function _LaunchCountdown({
   );
 }
 
-export default _LaunchCountdown;
+export default LaunchCountdown;
