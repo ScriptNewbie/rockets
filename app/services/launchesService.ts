@@ -1,4 +1,5 @@
 "use server";
+import { StateCode } from "../utils/codeToState";
 import APIClient from "./APIClient";
 
 interface Provider {
@@ -18,6 +19,19 @@ interface Vehicle {
   name: string;
 }
 
+interface Location {
+  id: number;
+  name: string;
+  country: string;
+  state: StateCode;
+}
+
+interface Pad {
+  id: number;
+  name: string;
+  location: Location;
+}
+
 interface LaunchResponse {
   id: number;
   name: string;
@@ -26,7 +40,14 @@ interface LaunchResponse {
   slug: string;
   missions: Mission[];
   sort_date: number;
+  launch_description: string;
+  pad: Pad;
   result: -1 | 0 | 1 | 2 | 3 | null;
+}
+
+interface Query {
+  vehicalId?: number;
+  providerId?: number;
 }
 
 export interface Launch extends LaunchResponse {
@@ -56,18 +77,13 @@ export const getLaunch = async (slug: string): Promise<Launch | null> => {
   return null;
 };
 
-interface Query {
-  vehicalId?: number;
-  providerId?: number;
-}
-
 const getLaunches = async (
   limit: number,
   page: number,
   query: Query,
   additionalSearchParams: Record<string, string>
 ) => {
-  const queryObject = {} as { vehical_id: string; provider_id: string };
+  const queryObject = {} as { vehical_id?: string; provider_id?: string };
   if (query.providerId !== undefined)
     queryObject.provider_id = query.providerId.toString();
   if (query.vehicalId !== undefined)

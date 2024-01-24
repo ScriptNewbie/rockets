@@ -26,7 +26,7 @@ function LaunchCountdown({ date }: { date: Date }) {
 
   if (countdown < 0) return null;
   return (
-    <div suppressHydrationWarning className="tabular-nums">
+    <span suppressHydrationWarning className="tabular-nums">
       T-
       {days > 0 ? (
         <>{days} days</>
@@ -36,7 +36,7 @@ function LaunchCountdown({ date }: { date: Date }) {
           {addLeadingDigit(seconds)}
         </>
       )}
-    </div>
+    </span>
   );
 }
 

@@ -2,7 +2,7 @@ import React from "react";
 
 function LaunchDate({ date }: { date: Date }) {
   return (
-    <div>
+    <span>
       {date
         .toLocaleDateString("en-GB", {
           year: "numeric",
@@ -14,7 +14,7 @@ function LaunchDate({ date }: { date: Date }) {
           timeZoneName: "short",
         })
         .replace(/,/, "")}
-    </div>
+    </span>
   );
 }
 
