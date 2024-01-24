@@ -9,7 +9,7 @@ interface Props {
   params: { slug: string };
 }
 
-export async function Launch({ params: { slug } }: Props) {
+async function Launch({ params: { slug } }: Props) {
   const launch = await getLaunch(slug);
   if (!launch) notFound();
 
@@ -75,7 +75,7 @@ function Missions({ launch: { missions } }: { launch: Launch }) {
           <section className="flex flex-col gap-3">
             <h3 className="font-bold text-lg">Missions</h3>
             {missions?.map((mission) => (
-              <DetailGroup title={mission.name}>
+              <DetailGroup key={mission.id} title={mission.name}>
                 {mission.description}
               </DetailGroup>
             ))}
