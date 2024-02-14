@@ -13,9 +13,11 @@ class APIClient<T> {
   private baseUrl: string = process.env.API_URL || "";
   private authKey: string = process.env.API_KEY || "";
   private endpoint: string;
+  private revalidatePeriod: number | undefined;
 
-  constructor(endpoint: string) {
+  constructor(endpoint: string, revalidatePeriod?: number) {
     this.endpoint = endpoint;
+    this.revalidatePeriod = revalidatePeriod;
   }
 
   private http = async (
@@ -30,7 +32,7 @@ class APIClient<T> {
 
     const result = await fetch(`${this.baseUrl}/${this.endpoint}?${params}`, {
       headers,
-      next: { revalidate: 10 },
+      next: { revalidate: this.revalidatePeriod },
     });
 
     return result.json();

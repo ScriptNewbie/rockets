@@ -16,7 +16,7 @@ export default async function Home() {
         <div>
           <h2 className="text-lg">Previous Launches</h2>
           {pastLaunches.result.map((launch) => (
-            <div className="mt-2" key={launch.id}>
+            <div className="mt-2 opacity-90 hover:opacity-100" key={launch.id}>
               <Link href={"launch/" + launch.slug}>
                 <LaunchCard withDate launch={launch} />
               </Link>
@@ -26,7 +26,7 @@ export default async function Home() {
         <div>
           <h2 className="text-lg">Upcoming Launches</h2>
           {futureLaunches.result.map((launch) => (
-            <div className="mt-2" key={launch.id}>
+            <div className="mt-2 opacity-90 hover:opacity-100" key={launch.id}>
               <Link href={"launch/" + launch.slug}>
                 <LaunchCard withDate launch={launch} />
               </Link>

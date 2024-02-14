@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { LaunchDateWithCountdown } from "../../components/LaunchDateWithCountdown";
 import getLaunchStatus from "@/app/utils/getLaunchStatus";
+import Link from "../../components/Link";
 
 interface Props {
   params: { slug: string };
@@ -42,7 +43,9 @@ function LaunchDetalis({ launch }: { launch: Launch }) {
     <section className="flex flex-col gap-3">
       <h3 className="font-bold text-lg">Launch details</h3>
       <DetailGroup title="Launching company">
-        {launch.provider.name}
+        <Link href={"../provider/" + launch.provider.slug}>
+          {launch.provider.name}
+        </Link>
       </DetailGroup>
       <DetailGroup title="Vehicle">{launch.vehicle.name}</DetailGroup>
       <LaunchSite launch={launch} />

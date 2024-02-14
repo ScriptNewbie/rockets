@@ -15,7 +15,7 @@ function Link({ href, children }: Props) {
       onClick={() => {
         setIsClicked(true);
       }}
-      className={(isClicked ? "pulse " : " ") + "opacity-90 hover:opacity-100"}
+      className={isClicked ? "pulse " : ""}
     >
       <NextLink href={href}>{children}</NextLink>
     </div>

@@ -1,12 +1,7 @@
 "use server";
 import { StateCode } from "../utils/codeToState";
+import { Provider, ProviderResponse } from "./providersService";
 import APIClient from "./APIClient";
-
-interface Provider {
-  id: number;
-  name: string;
-  slug: string;
-}
 
 interface Mission {
   id: number;
@@ -35,7 +30,7 @@ interface Pad {
 interface LaunchResponse {
   id: number;
   name: string;
-  provider: Provider;
+  provider: ProviderResponse;
   vehicle: Vehicle;
   slug: string;
   missions: Mission[];
@@ -53,9 +48,10 @@ interface Query {
 export interface Launch extends LaunchResponse {
   launched: boolean;
   date: Date;
+  provider: Provider;
 }
 
-const launchesClient = new APIClient<LaunchResponse>("launches");
+const launchesClient = new APIClient<LaunchResponse>("launches", 10);
 
 const getLaunchesByParams = async (searchParams: Record<string, string>) => {
   const response = await launchesClient.get(searchParams);
@@ -65,6 +61,10 @@ const getLaunchesByParams = async (searchParams: Record<string, string>) => {
       ...launch,
       launched: launch.sort_date < nowUnixTimestamp,
       date: new Date(launch.sort_date * 1000),
+      provider: {
+        ...launch.provider,
+        slug: launch.provider.name.split(" ").join("-").toLowerCase(),
+      },
     };
   });
   return { ...response, result: launches };
