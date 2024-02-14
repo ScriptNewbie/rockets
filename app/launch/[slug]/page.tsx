@@ -4,6 +4,7 @@ import { Launch, getLaunch } from "@/app/services/launchesService";
 import { notFound } from "next/navigation";
 import React from "react";
 import { LaunchDateWithCountdown } from "../../components/LaunchDateWithCountdown";
+import getLaunchStatus from "@/app/utils/getLaunchStatus";
 
 interface Props {
   params: { slug: string };
@@ -47,6 +48,9 @@ function LaunchDetalis({ launch }: { launch: Launch }) {
       <LaunchSite launch={launch} />
       <DetailGroup title="Launch date">
         <LaunchDateWithCountdown launch={launch} />
+      </DetailGroup>
+      <DetailGroup title="Status">
+        <LaunchStatus launch={launch} />
       </DetailGroup>
     </section>
   );
@@ -95,6 +99,13 @@ function LaunchSite({ launch: { pad } }: { launch: Launch }) {
         }${pad.location.country})`}
       </DetailGroup>
     );
+  }
+}
+
+function LaunchStatus({ launch }: { launch: Launch }) {
+  const status = getLaunchStatus(launch);
+  {
+    return <span className={"text-" + status.color}>{status.name}</span>;
   }
 }
 

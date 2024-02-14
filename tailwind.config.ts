@@ -13,6 +13,13 @@ const config: Config = {
     "bg-green-600",
     "bg-orange-500",
     "bg-yellow-500",
+
+    "text-blue-500",
+    "text-red-500",
+    "text-green-500",
+    "text-green-600",
+    "text-orange-500",
+    "text-yellow-500",
   ],
   theme: {
     extend: {

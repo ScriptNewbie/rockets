@@ -22,11 +22,11 @@ function LaunchCountdown({ date }: { date: Date }) {
     return () => {
       clearInterval(countdown);
     };
-  }, []);
+  }, [date]);
 
   if (countdown < 0) return null;
   return (
-    <span suppressHydrationWarning className="tabular-nums">
+    <span suppressHydrationWarning className="tabular-nums text-lime-400">
       T-
       {days > 0 ? (
         <>{days} days</>

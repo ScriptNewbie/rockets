@@ -4,13 +4,13 @@ import { Launch } from "@/app/services/launchesService";
 
 export function LaunchDateWithCountdown({ launch }: { launch: Launch }) {
   return (
-    <>
+    <span>
       <LaunchDate date={launch.date} />{" "}
       {!launch.launched && (
         <>
           (<LaunchCountdown date={launch.date} />)
         </>
       )}
-    </>
+    </span>
   );
 }
