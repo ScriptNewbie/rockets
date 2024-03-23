@@ -104,7 +104,7 @@ export const getFutureLaunches = (limit = 25, page = 1, query: Query = {}) => {
 export const getPastLaunches = (limit = 25, page = 1, query: Query = {}) => {
   const now = new Date();
   return getLaunches(limit, page, query, {
-    before_date: now.toISOString(),
+    before_date: now.toISOString().split("T")[0],
     direction: "desc",
   });
 };
