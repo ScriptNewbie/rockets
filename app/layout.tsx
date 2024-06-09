@@ -17,6 +17,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={tektur.className + " bg-black text-slate-100"}>
         {children}
+        <div className="text-center m-3">
+          Data provided by{" "}
+          <a href="https://www.rocketlaunch.live/">rocketlaunch.live</a>
+        </div>
       </body>
     </html>
   );
