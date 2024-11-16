@@ -17,7 +17,9 @@ function Link({ href, children }: Props) {
       }}
       className={isClicked ? "pulse " : ""}
     >
-      <NextLink href={href}>{children}</NextLink>
+      <NextLink prefetch={true} href={href}>
+        {children}
+      </NextLink>
     </div>
   );
 }

@@ -1,11 +1,13 @@
 import LaunchCard from "@/app/components/launchCard";
 import codeToState from "@/app/utils/codeToState";
-import { Launch, getLaunch } from "@/app/services/launchesService";
+import { getLaunch } from "@/app/services/launchesService";
 import { notFound } from "next/navigation";
 import React from "react";
 import { LaunchDateWithCountdown } from "../../components/LaunchDateWithCountdown";
 import getLaunchStatus from "@/app/utils/getLaunchStatus";
 import Link from "../../components/Link";
+
+import type { Launch } from "@/app/services/launchesService";
 
 interface Props {
   params: { slug: string };
