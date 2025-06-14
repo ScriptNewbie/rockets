@@ -14,7 +14,6 @@ const providersClient = new APIClient<Provider>("companies");
 export const getProvider = async (slug: string) => {
   const name = slug.split("-").join(" ");
   const { result } = await providersClient.get({ name });
-  console.log(result);
   if (result.length > 0) return result[0];
   return null;
 };

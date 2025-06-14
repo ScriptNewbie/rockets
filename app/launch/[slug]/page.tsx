@@ -21,7 +21,7 @@ async function Launch({ params: { slug } }: Props) {
     <div className="m-5">
       <LaunchCard launch={launch} />
       <div className="container grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5 mx-auto">
-        <LaunchDetalis launch={launch} />
+        <LaunchDetails launch={launch} />
         <div className="flex flex-col gap-5">
           <LaunchDescription description={launch.launch_description} />
           <Missions launch={launch} />
@@ -40,7 +40,7 @@ function LaunchDescription({ description }: { description: string }) {
   );
 }
 
-function LaunchDetalis({ launch }: { launch: Launch }) {
+function LaunchDetails({ launch }: { launch: Launch }) {
   return (
     <section className="flex flex-col gap-3">
       <h3 className="font-bold text-lg">Launch details</h3>
@@ -49,7 +49,12 @@ function LaunchDetalis({ launch }: { launch: Launch }) {
           {launch.provider.name}
         </Link>
       </DetailGroup>
-      <DetailGroup title="Vehicle">{launch.vehicle.name}</DetailGroup>
+      <DetailGroup title="Vehicle">
+        {" "}
+        <Link href={"../vehicle/" + launch.vehicle.slug}>
+          {launch.vehicle.name}
+        </Link>
+      </DetailGroup>
       <LaunchSite launch={launch} />
       <DetailGroup title="Launch date">
         <LaunchDateWithCountdown launch={launch} />

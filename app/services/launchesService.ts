@@ -12,6 +12,7 @@ interface Mission {
 interface Vehicle {
   id: number;
   name: string;
+  slug: string;
 }
 
 interface Location {
@@ -41,7 +42,7 @@ interface LaunchResponse {
 }
 
 interface Query {
-  vehicalId?: number;
+  vehicleId?: number;
   providerId?: number;
 }
 
@@ -65,6 +66,10 @@ const getLaunchesByParams = async (searchParams: Record<string, string>) => {
         ...launch.provider,
         slug: launch.provider.name.split(" ").join("-").toLowerCase(),
       },
+      vehicle: {
+        ...launch.vehicle,
+        slug: launch.vehicle.name.split(" ").join("-").toLowerCase(),
+      },
     };
   });
   return { ...response, result: launches };
@@ -83,11 +88,11 @@ const getLaunches = async (
   query: Query,
   additionalSearchParams: Record<string, string>
 ) => {
-  const queryObject = {} as { vehical_id?: string; provider_id?: string };
+  const queryObject = {} as { vehicle_id?: string; provider_id?: string };
   if (query.providerId !== undefined)
     queryObject.provider_id = query.providerId.toString();
-  if (query.vehicalId !== undefined)
-    queryObject.vehical_id = query.vehicalId.toString();
+  if (query.vehicleId !== undefined)
+    queryObject.vehicle_id = query.vehicleId.toString();
 
   return getLaunchesByParams({
     limit: limit.toString(),

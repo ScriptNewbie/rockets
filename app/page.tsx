@@ -1,10 +1,6 @@
 import Link from "./components/Link";
 import LaunchCard from "./components/launchCard";
-import {
-  getFutureLaunches,
-  getLaunch,
-  getPastLaunches,
-} from "./services/launchesService";
+import { getFutureLaunches, getPastLaunches } from "./services/launchesService";
 
 export default async function Home() {
   const futureLaunches = await getFutureLaunches(25, 1);
@@ -17,7 +13,7 @@ export default async function Home() {
           <h2 className="text-lg">Previous Launches</h2>
           {pastLaunches.result.map((launch) => (
             <div className="mt-2 opacity-90 hover:opacity-100" key={launch.id}>
-              <Link href={"launch/" + launch.slug}>
+              <Link href={"/launch/" + launch.slug}>
                 <LaunchCard withDate launch={launch} />
               </Link>
             </div>
@@ -27,7 +23,7 @@ export default async function Home() {
           <h2 className="text-lg">Upcoming Launches</h2>
           {futureLaunches.result.map((launch) => (
             <div className="mt-2 opacity-90 hover:opacity-100" key={launch.id}>
-              <Link href={"launch/" + launch.slug}>
+              <Link href={"/launch/" + launch.slug}>
                 <LaunchCard withDate launch={launch} />
               </Link>
             </div>
