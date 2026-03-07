@@ -6,10 +6,11 @@ import Link from "@/app/components/Link";
 import LaunchCard from "@/app/components/launchCard";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export default async function Provider({ params: { slug } }: Props) {
+export default async function Provider({ params }: Props) {
+  const { slug } = await params;
   const provider = await getProvider(slug);
   if (!provider) notFound();
 

@@ -10,10 +10,11 @@ import Link from "../../components/Link";
 import type { Launch } from "@/app/services/launchesService";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-async function Launch({ params: { slug } }: Props) {
+async function Launch({ params }: Props) {
+  const { slug } = await params;
   const launch = await getLaunch(slug);
   if (!launch) notFound();
 

@@ -6,10 +6,11 @@ import LaunchCard from "@/app/components/launchCard";
 import { getVehicle } from "@/app/services/vehiclesService";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export default async function Rocket({ params: { slug } }: Props) {
+export default async function Rocket({ params }: Props) {
+  const { slug } = await params;
   const rocket = await getVehicle(slug);
   if (!rocket) notFound();
 
