@@ -86,7 +86,7 @@ const getLaunches = async (
   limit: number,
   page: number,
   query: Query,
-  additionalSearchParams: Record<string, string>
+  additionalSearchParams: Record<string, string>,
 ) => {
   const queryObject = {} as { vehicle_id?: string; provider_id?: string };
   if (query.providerId !== undefined)
@@ -102,11 +102,19 @@ const getLaunches = async (
   });
 };
 
-export const getFutureLaunches = (limit = 25, page = 1, query: Query = {}) => {
+export const getFutureLaunches = async (
+  limit = 25,
+  page = 1,
+  query: Query = {},
+) => {
   return getLaunches(limit, page, query, {});
 };
 
-export const getPastLaunches = (limit = 25, page = 1, query: Query = {}) => {
+export const getPastLaunches = async (
+  limit = 25,
+  page = 1,
+  query: Query = {},
+) => {
   const now = new Date();
   return getLaunches(limit, page, query, {
     before_date: now.toISOString().split("T")[0],
