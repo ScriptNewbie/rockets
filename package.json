@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^16.3.3",
+    "next": "^16.3.8",
     "react": "^19",
     "react-dom": "^19"
   },
@@ -19,7 +19,7 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.27",
     "eslint": "^9",
-    "eslint-config-next": "^16.3.3",
+    "eslint-config-next": "^16.3.8",
     "postcss": "^8.5.23",
     "tailwindcss": "^3.4.19",
     "typescript": "^5"
@@ -27,9 +27,9 @@
   "overrides": {
     "@babel/core": "7.29.6",
     "@humanfs/node": "0.16.8",
-    "brace-expansion": "1.1.18",
+    "brace-expansion": "1.1.21",
     "@typescript-eslint/typescript-estree": {
-      "brace-expansion": "5.0.9"
+      "brace-expansion": "5.0.12"
     },
     "browserslist": "4.28.7",
     "flatted": "3.4.2",
@@ -40,6 +40,7 @@
     "tinyglobby": {
       "picomatch": "4.0.4"
     },
-    "sharp": "0.35.4"
+    "sharp": "0.35.5",
+    "source-map-js": "1.2.2"
   }
 }
