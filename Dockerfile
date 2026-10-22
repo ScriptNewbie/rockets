@@ -1,12 +1,20 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM node:24-alpine AS base
+# Pin the October 2026 Node.js security release. node:24-alpine currently
+# resolves to this same image (24.22.1, sha256:06d7adf3e0ef...), but a
+# floating tag can reuse a cached pre-patch layer (24.22.0) and skip the
+# redeploy. CVE-2026-111497 is a Brotli decoder RCE; the release also
+# includes CVE-2026-105482, CVE-2026-105483, CVE-2026-106069,
+# CVE-2026-105481, CVE-2026-106072, CVE-2026-106074, and CVE-2026-106073.
+FROM node:24.22.1-alpine AS base
 
-# node:24.22.0-alpine (published 2026-10-14) is already the current Node 24
-# Alpine tag. Alpine 3.24 and npm published later security fixes, so apply
-# them here until the official image is rebuilt.
-# Verified 2026-10-18: libssl3/libcrypto3 3.5.8-r0 -> 3.5.9-r0,
-# zlib 1.3.2-r0 -> 1.3.2-r1, npm 11.19.1 -> 11.21.1.
+# This tag already includes libssl3/libcrypto3 3.5.9-r0 and zlib 1.3.2-r1
+# (zlib CVE-2026-85091, gzprintf only). Refresh them at build time so a
+# later Alpine patch is picked up without waiting for a new Node tag.
+# The image still ships npm 11.19.1; its bundled CLI dependencies are not
+# on the request path, but 11.21.1 is the patched npm 11 line
+# (brace-expansion, undici, ip-address, postcss-selector-parser,
+# http-cache-semantics).
 RUN apk add --no-cache --upgrade libcrypto3 libssl3 zlib \
  && npm install -g npm@11.21.1 \
  && npm cache clean --force
