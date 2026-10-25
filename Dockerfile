@@ -11,12 +11,25 @@ FROM node:24.22.1-alpine AS base
 # This tag already includes libssl3/libcrypto3 3.5.9-r0 and zlib 1.3.2-r1
 # (zlib CVE-2026-85091, gzprintf only). Refresh them at build time so a
 # later Alpine patch is picked up without waiting for a new Node tag.
-# The image still ships npm 11.19.1; its bundled CLI dependencies are not
-# on the request path, but 11.21.1 is the patched npm 11 line
-# (brace-expansion, undici, ip-address, postcss-selector-parser,
-# http-cache-semantics).
+# The image still ships npm 11.19.1. npm 11.21.1 is the patched npm 11 line
+# (brace-expansion, postcss-selector-parser, http-cache-semantics) but still
+# ships ip-address 10.7.2 (GHSA-rxp7-6hxx-x8q5 / CVE-2026-111997, <=10.7.3,
+# fixed in 10.7.4) and undici 6.29.0 (GHSA-xjj6-f33q-929c / CVE-2026-109869
+# and GHSA-4qv8-2p9j-2685 / CVE-2026-109924, fixed in 6.29.1). socks and
+# @npmcli/agent accept ip-address ^10.1.x; node-gyp accepts undici ^6.25.0.
+# These copies are npm CLI tooling, not on the request path. Node's own
+# undici is already 7.30.1 (process.versions.undici).
 RUN apk add --no-cache --upgrade libcrypto3 libssl3 zlib \
  && npm install -g npm@11.21.1 \
+ && npm pack ip-address@10.7.4 undici@6.29.1 --pack-destination /tmp \
+ && rm -rf /usr/local/lib/node_modules/npm/node_modules/ip-address \
+ && mkdir -p /usr/local/lib/node_modules/npm/node_modules/ip-address \
+ && tar -xzf /tmp/ip-address-10.7.4.tgz -C /usr/local/lib/node_modules/npm/node_modules/ip-address --strip-components=1 \
+ && rm -rf /usr/local/lib/node_modules/npm/node_modules/undici \
+ && mkdir -p /usr/local/lib/node_modules/npm/node_modules/undici \
+ && tar -xzf /tmp/undici-6.29.1.tgz -C /usr/local/lib/node_modules/npm/node_modules/undici --strip-components=1 \
+ && rm -f /tmp/ip-address-10.7.4.tgz /tmp/undici-6.29.1.tgz \
+ && node -e "const ip=require('/usr/local/lib/node_modules/npm/node_modules/ip-address/package.json').version; const u=require('/usr/local/lib/node_modules/npm/node_modules/undici'); const uv=require('/usr/local/lib/node_modules/npm/node_modules/undici/package.json').version; if (ip!=='10.7.4' || uv!=='6.29.1' || !u.fetch) { console.error('unexpected', ip, uv); process.exit(1); }" \
  && npm cache clean --force
 
 # Install dependencies only when needed
